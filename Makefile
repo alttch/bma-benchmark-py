@@ -14,10 +14,7 @@ build:
 
 pub: d pub-pypi
 
-pub-pypi: upload-pypi pub-anaconda
-
-pub-anaconda:
-	/opt/anaconda3/bin/anaconda upload -u bohemia-automation dist/*.tar.gz
+pub-pypi: upload-pypi
 
 upload-pypi:
 	twine upload dist/*
