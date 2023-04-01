@@ -33,7 +33,7 @@ benchmark.run()
 #benchmark.run(number=100, precision=3, units='s', print_result=True)
 ```
 
-![results](https://github.com/alttch/bma-benchmark-py/blob/main/ss.png?raw=true)
+![results](https://github.com/alttch/bma-benchmark-py/blob/main/run.png?raw=true)
 
 ### Decorator arguments
 
