@@ -19,7 +19,7 @@ setuptools.setup(
     install_requires=['rapidtables>=0.1.11', 'neotermcolor>=2.0.8'],
     classifiers=(
         'Programming Language :: Python :: 3',
-        'License :: OSI Approved :: MIT',
+        'License :: OSI Approved :: MIT License',
         'Topic :: Software Development :: Libraries',
         'Topic :: System :: Benchmark',
     ))
