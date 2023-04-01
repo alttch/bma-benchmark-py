@@ -14,9 +14,7 @@ pip3 install bma_benchmark
 ## Usage
 
 ```python
-from bma_benchmark import Benchmark
-
-benchmark = Benchmark()
+from bma_benchmark import benchmark
 
 @benchmark(base=True)
 def my_function1():
@@ -64,9 +62,7 @@ versions of Python interpreter.
 ### Primary script
 
 ```python
-from bma_benchmark import Benchmark
-
-benchmark = Benchmark()
+from bma_benchmark import benchmark
 
 # define some local benchmarks if required
 @benchmark
@@ -84,9 +80,7 @@ make sure the scripts have execution permission (chmod +x):
 ```python
 #!/path/to/some/other/python
 
-from bma_benchmark import Benchmark
-
-benchmark = Benchmark()
+from bma_benchmark import benchmark
 
 # define benchmarks
 @benchmark
@@ -99,3 +93,18 @@ benchmark.sub()
 The secondary scripts can contain "base" argument in a decorator as well. The
 "sub()" method outputs benchmark results to stdout in JSON format to
 synchronize with the primary, so secondary benchmarks must not print anything.
+
+## Multiple benchmarks in the same script
+
+"benchmark" is the default benchmark object. Custom objects can be created from
+the "Benchmark class".
+
+```python
+from bma_benchmark import Benchmark
+
+my_bench = Benchmark()
+
+@my_bench
+def bench():
+    pass
+```
