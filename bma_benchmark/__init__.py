@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-__version__ = '0.0.2'
+__version__ = '0.0.4'
 
 import time
 import json
@@ -228,3 +228,5 @@ class Benchmark:
                                      sort_result=None,
                                      _full=False),
                      base=self.base)))
+
+benchmark = Benchmark()
