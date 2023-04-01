@@ -2,7 +2,7 @@
 
 Python benchmark library
 
-<img src="https://img.shields.io/pypi/v/bma_benchmarkg.svg" /> <img src="https://img.shields.io/badge/license-MIT-green" /> <img src="https://img.shields.io/badge/python-3.5%20%7C%203.6%20%7C%203.7%20%7C%203.8-blue.svg" />
+<img src="https://img.shields.io/pypi/v/bma-benchmarkg.svg" /> <img src="https://img.shields.io/badge/license-MIT-green" /> <img src="https://img.shields.io/badge/python-3.5%20%7C%203.6%20%7C%203.7%20%7C%203.8-blue.svg" />
 
 
 ## Installation
