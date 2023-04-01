@@ -39,6 +39,7 @@ class Benchmark:
             number=100,
             precision=3,
             units='s',
+            sort_result='desc',
             print_result=True,
             _full=True):
         """
@@ -49,6 +50,7 @@ class Benchmark:
             precision: digits after comma for numbers
             units: min/max/avg units (s, ms, us or ns)
             print_result: automatically print results (True/False)
+            sort_result: sort result (a/asc, d/desc or None)
 
         Returns:
             dict of benchmark results
@@ -61,7 +63,6 @@ class Benchmark:
             from rapidtables import format_table, FORMAT_GENERATOR_COLS
             from neotermcolor import colored, cprint
         result = []
-        diff_col = []
         base_elapsed = None
         for target in self.targets:
             if print_result:
@@ -124,19 +125,19 @@ class Benchmark:
             if _full and base_elapsed:
                 if row['name'] == self.base:
                     row['diff'] = ''
-                    diff_col.append(None)
+                    row['diff_col'] = None
                 else:
                     if base_elapsed < row['sec']:
                         diff = 100 - base_elapsed / row['sec'] * 100
                         row['diff'] = f'-{diff:_.2f}%'
-                        diff_col.append('red')
+                        row['diff_col'] = 'red'
                     elif base_elapsed > row['sec']:
                         diff = base_elapsed / row['sec'] * 100 - 100
                         row['diff'] = f'+{diff:_.2f}%'
-                        diff_col.append('green')
+                        row['diff_col'] = 'green'
                     else:
                         row['diff'] = '0%'
-                        diff_col.append(None)
+                        row['diff_col'] = None
             if print_result:
                 fmt = f'{{:_.{precision}f}}'
                 row['sec'] = fmt.format(row['sec'])
@@ -149,6 +150,12 @@ class Benchmark:
                     row.move_to_end('diff')
                 except KeyError:
                     pass
+        if sort_result == 'asc' or sort_result == 'a':
+            result = sorted(result, key=lambda k: k['sec'], reverse=True)
+        elif sort_result == 'desc' or sort_result == 'd':
+            result = sorted(result, key=lambda k: k['sec'])
+        if base_elapsed and print_result:
+            diff_col = [row.pop('diff_col') for row in result]
         if print_result and result:
             header, rows = format_table(result, fmt=FORMAT_GENERATOR_COLS)
             spacer = '  '
@@ -218,5 +225,6 @@ class Benchmark:
                 dict(result=self.run(number=int(
                     os.getenv('BMA_BENCHMARK_NUMBER')),
                                      print_result=False,
+                                     sort_result=None,
                                      _full=False),
                      base=self.base)))
