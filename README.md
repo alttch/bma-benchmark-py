@@ -30,7 +30,8 @@ def my_function2():
 
 benchmark.run()
 # equal to
-#benchmark.run(number=100, precision=3, units='s', print_result=True)
+#benchmark.run(
+#    number=100, precision=3, units='s', print_result=True, sort_result='desc')
 ```
 
 ![results](https://github.com/alttch/bma-benchmark-py/blob/main/run.png?raw=true)
@@ -38,14 +39,21 @@ benchmark.run()
 ### Decorator arguments
 
 * **name** override benchmark name (default: function name)
+
 * **base** use as the base benchmark to measure difference from (True/False)
 
 ### Benchmark.run() arguments
 
 * **number** number of function executions
+
 * **precision** digits after comma for numbers
+
 * **units** min/max/avg units (s, ms, us or ns)
+
 * **print_result** automatically print results (True/False)
+
+* **sort_result** sort result in ascending (asc/a) or descending(desc/d) order,
+  None to keep unsorted
 
 ## Calling sub-processes
 
@@ -71,7 +79,7 @@ benchmark.run()
 
 ### Secondary scripts
 
-make sure the scripts have execution permissions (chmod +x):
+make sure the scripts have execution permission (chmod +x):
 
 ```python
 #!/path/to/some/other/python
