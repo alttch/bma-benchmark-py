@@ -17,7 +17,7 @@ pip3 install bma_benchmark
 from bma_benchmark import benchmark
 
 @benchmark(base=True)
-def my_function1():
+def benchmark1():
     # do some job
     1 + 1
 
