@@ -140,7 +140,6 @@ class Benchmark:
                         row['diff_col'] = None
             if print_result:
                 fmt = f'{{:_.{precision}f}}'
-                row['sec'] = fmt.format(row['sec'])
                 for col in ['min', 'max', 'avg']:
                     row[f'{col} {units}'] = fmt.format(row[col] * multiplier)
                     del row[col]
@@ -156,6 +155,9 @@ class Benchmark:
             result = sorted(result, key=lambda k: k['sec'])
         if base_elapsed and print_result:
             diff_col = [row.pop('diff_col') for row in result]
+        if print_result:
+            for row in result:
+                row['sec'] = fmt.format(row['sec'])
         if print_result and result:
             header, rows = format_table(result, fmt=FORMAT_GENERATOR_COLS)
             spacer = '  '
@@ -228,5 +230,6 @@ class Benchmark:
                                      sort_result=None,
                                      _full=False),
                      base=self.base)))
+
 
 benchmark = Benchmark()
