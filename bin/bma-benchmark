@@ -1,0 +1,30 @@
+#!/usr/bin/env python3
+
+from argparse import ArgumentParser
+from bma_benchmark import benchmark
+
+ap = ArgumentParser()
+ap.add_argument('FILE', nargs='+')
+ap.add_argument('-B', '--base', type=str)
+ap.add_argument('-P', '--precision', type=int, default=3)
+ap.add_argument('-U',
+                '--units',
+                type=str,
+                choices=['s', 'ms', 'us', 'ns'],
+                default='s')
+ap.add_argument('-S',
+                '--sort',
+                type=str,
+                choices=['desc', 'asc', 'no'],
+                default=3)
+
+a = ap.parse_args()
+
+for f in a.FILE:
+    benchmark.append_file(f)
+
+benchmark.base = a.base
+sort = a.sort
+if sort == 'no':
+    sort = None
+benchmark.run(precision=a.precision, units=a.units, sort_result=sort)

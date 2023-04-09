@@ -108,3 +108,23 @@ my_bench = Benchmark()
 def bench():
     pass
 ```
+
+## Storing results from multiple benchmarks
+
+Run a benchmark script with "OUT" OS variable:
+
+```shell
+OUT=b1.json python script.py
+```
+
+The benchmark result will be saved into "b1.json" file. After, multiple
+benchmarks can be combined into a single table with "bma-benchmark" console
+tool:
+
+```shell
+bma-benchmark b1.json b2.json
+```
+
+The tool automatically adds benchmark prefixes as "FILE_NAME.". It also has got
+options to specify precision, units etc. (run "bma-benchmark -h" to get list of
+all options)

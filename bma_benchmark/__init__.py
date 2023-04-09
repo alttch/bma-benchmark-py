@@ -8,6 +8,7 @@ import os
 import subprocess
 
 from collections import OrderedDict
+from pathlib import Path
 
 
 def _get_multiplier(units):
@@ -65,7 +66,7 @@ class Benchmark:
         result = []
         base_elapsed = None
         for target in self.targets:
-            if print_result:
+            if print_result and target.kind in ['func', 'sub']:
                 spacer = '-' * 4
                 cprint(f'{spacer} {target.kind} {target.name} {spacer}',
                        color='grey')
@@ -121,6 +122,26 @@ class Benchmark:
                         result.append(row)
                         if self.base == sub_row['name']:
                             base_elapsed = sub_row['sec']
+            elif target.kind == 'file':
+                p = Path(target.name)
+                with open(p) as fh:
+                    sub_result = json.load(fh)
+                    sub_number = sub_result['number']
+                    for sub_row in sub_result['result']:
+                        row = OrderedDict()
+                        row['name'] = f'{p.stem}.{sub_row["name"]}'
+                        row['min'] = sub_row['min']
+                        row['max'] = sub_row['max']
+                        row['avg'] = sub_row['sec'] / sub_number
+                        row['sec'] = sub_row['sec']
+                        if self.base == row['name']:
+                            base_elapsed = row['sec']
+                        row['iters/s'] = f'{round(sub_number / row["sec"]):_}'
+                        result.append(row)
+        fout = os.getenv('OUT')
+        if fout:
+            with open(fout, 'w') as fh:
+                json.dump(dict(result=result, number=number), fh)
         for row in result:
             if _full and base_elapsed:
                 if row['name'] == self.base:
@@ -176,6 +197,10 @@ class Benchmark:
                     print(colored(r[6], color=diff_col[i]))
                 else:
                     print(colored(r[5], color='yellow'))
+        if fout:
+            print()
+            print(f'The result has been saved into',
+                  colored(fout, color='cyan', attrs='bold'))
         return result
 
     def __call__(self, f=None, **kwargs):
@@ -216,6 +241,16 @@ class Benchmark:
             path: command path
         """
         target = Target(path, kind='sub', name=path)
+        self.targets.append(target)
+
+    def append_file(self, path):
+        """
+        Append results from a file
+
+        Args:
+            path: file path
+        """
+        target = Target(path, kind='file', name=path)
         self.targets.append(target)
 
     def sub(self):

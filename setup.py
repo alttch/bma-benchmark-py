@@ -17,6 +17,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     license='MIT',
     install_requires=['rapidtables>=0.1.11', 'neotermcolor>=2.0.8'],
+    scripts=['bin/bma-benchmark'],
     classifiers=(
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',
